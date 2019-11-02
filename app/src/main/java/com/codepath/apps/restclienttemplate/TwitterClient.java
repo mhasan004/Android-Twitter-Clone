@@ -9,26 +9,31 @@ import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 public class TwitterClient extends OAuthBaseClient
 {
-	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); 										// **Change this
-	public static final String REST_URL = "https://api.twitter.com/1.1"; 										// **Change this, base API URL:  https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
-	public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;       								// **Change this inside apikey.properties
-	public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET; 								// **Change this inside apikey.properties
+	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); 										//***Change this
+	public static final String REST_URL = "https://api.twitter.com/1.1"; 										//***Change this, base API URL:  https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
+	public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;       								//***Change this inside apikey.properties
+	public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET; 								//***Change this inside apikey.properties
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html"; 																	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
 			// See https://developer.chrome.com/multidevice/android/intents
 			//in twitter dev site, i said i want the application to go to "intent://" which is this
 
 	public TwitterClient(Context context) {
-		super(context, REST_API_INSTANCE, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET,
+		super(context, REST_API_INSTANCE,
+				REST_URL,
+				REST_CONSUMER_KEY,
+				REST_CONSUMER_SECRET,
 				null,  																					// OAuth2 scope, null for OAuth1
-				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host), context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL)
+				String.format(REST_CALLBACK_URL_TEMPLATE,
+						context.getString(R.string.intent_host), context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL)
 		);
 	}
 
-	public void getInterestingnessList(JsonHttpResponseHandler handler){ 										// **CHANGE THIS. DEFINE METHODS for different API endpoints here
-		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-		RequestParams params = new RequestParams();																// Can specify query string params directly or through RequestParams.
-		params.put("format", "json");
+	public void getHomeTimeline(JsonHttpResponseHandler handler){ 										//***CHANGE THIS. DEFINE METHODS for different API endpoints here
+		String apiUrl = getApiUrl("statuses/home_timeline.json");									//*** endpoint.  from the api url given in twitter documentation: https://api.twitter.com/1.1/statuses/home_timeline.json
+		RequestParams params = new RequestParams();														// Can specify query string params directly or through RequestParams.
+		params.put("count", 25);																		//*** Number of records to retrieve <- parameter from twitter doc (count <= 200)
+		params.put("since_id", 1); 																		//*** returns ID greater than this number (used to get most recent tweets <- parameter from twitter doc (count <= 200)
 		client.get(apiUrl, params, handler);
 	}
 

@@ -12,6 +12,7 @@ import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
+	public static final String TAG = "hasan";
 	SampleModelDao sampleModelDao;
 	
 	@Override
@@ -42,21 +43,21 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// OAuth authenticated successfully, launch primary authenticated activity. ex: Display application "homepage"
 	@Override
 	public void onLoginSuccess() {
-		Log.i("hasan", "login success!");
-//		Intent i = new Intent(this, TimelineActivity.class );
-//		startActivity(i);
+		Log.i("hasan", "login success! (from LoginActivity.java)");
+		Intent i = new Intent(this, TimelineActivity.class );
+		startActivity(i);
 	}
 
 	// OAuth authentication flow failed, handle the error. Ex: Display an error dialog or toast
 	@Override
 	public void onLoginFailure(Exception e) {
-		Log.i("hasan", "login failure!!");
+		Log.i(TAG, "login failure (from LoginActivity.java)!!");
 		e.printStackTrace();
 	}
 
 	// The "login" button click handler method to start OAuth flow. Uses the client to initiate OAuth authorization. This should be tied to a button used to login
 	public void loginToRest(View view) {
-		Log.i("hasan", "loginToRest");
+		Log.i(TAG, "loginToRest (from LoginActivity.java)");
 		getClient().connect();
 	}
 
