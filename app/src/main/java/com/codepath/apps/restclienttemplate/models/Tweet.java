@@ -1,16 +1,14 @@
 package com.codepath.apps.restclienttemplate.models;
-
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 // This is a class to turn that Tweet the user made into a tweet object. What the Twitter returns is basically a tweet object (this class). What user tweeted this, tweet body, when was it tweeted?
 // The "User" property of this "Tweet" object is kind of special. Why? The Twitter API returns a "user" which contains the name, screenName, and profile pic of the person who tweeted
 // ***So need to make a "User" java object to represent that JSOn "User object"....see User.java
+
 public class Tweet {
     public User user;                                                                                                       //***Made this class. This is a User object. User object contains the the name, screenName, and the person's Profile pic from the API (turns JSON object to a java object-which is Users- basically)
     public String body;
@@ -31,11 +29,10 @@ public class Tweet {
     public static List<Tweet> fromJsonArray_returnListOfTweetObjects(JSONArray jsonArray) throws JSONException {            //***a function that returns a List of Tweet objects.
         List<Tweet> tweets = new ArrayList<>();                                                                             // initialize a new List that is an array
         for (int i=0; i < jsonArray.length(); ++i){
-            Log.i("hasan", "          Making List Of Tweets: JSONObj "+i+" = "+jsonArray.getJSONObject(i));
+            //Log.i("hasan", "          Making List Of Tweets: JSONObj "+i+" = "+jsonArray.getJSONObject(i)+ "  (Tweet)");
             tweets.add(fromJsonObj_returnTweetObj(jsonArray.getJSONObject(i)));
         }
         return tweets;
     }
-
-
 }
+
