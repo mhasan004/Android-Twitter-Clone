@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -23,19 +24,33 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     List<Tweet> tweets;                                                                             // Remember: the API return a JSOn object that is basically a tweet. We made a java "Tweet" class that will hold the fields we want. Since we will be getting a ton of tweet objects, we made a list of tweet objects
     TweetsAdapter adapter;
+    SwipeRefreshLayout swipeContainer;
 
     //1) making an instance of the twitter client
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-
         client = TwitterApp.getRestClient(this);                                            //2) Get the client + RecyclerView. Set the RecyclerView layout to LinearLayout + set adapter
-        rvTweets = findViewById(R.id.rvTweets);                                                           // a) FInd the RecyclerView
+
+        swipeContainer = findViewById(R.id.swipeContainer);                                             // *(Pull of Refresh)* this wraps the recycler view. it tells when i swip screen. will se to refresh
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,                        // *(Pull of Refresh)* Changing the loading circle colors when i pull down to refresh
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {                // *(Pull of Refresh)* see the "Pull of Refresh" Guide
+            @Override
+            public void onRefresh() {
+                Log.e(TAG, "Fetching New Data (TimelineActivity)");
+                populateHomeTimeLine();
+            }
+        });
+
+        rvTweets = findViewById(R.id.rvTweets);                                                         // a) Find the RecyclerView
         tweets = new ArrayList<>();                                                                     // b) Initialize the list of tweets and adapter
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));                               // c) RecyclerView setup: layout manager and adapter
-        rvTweets.setAdapter(adapter);                                                                       //pass in the adapter we just made
+        rvTweets.setAdapter(adapter);                                                                       // pass in the adapter we just made
         populateHomeTimeLine();                                                                     //3)
     }
 
@@ -47,8 +62,11 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess (TimelineActivity): " + json.toString());
                 JSONArray jsonArray =  json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));              // Using the function from "tweet.java" to turn JSON array to a list of Tweet objects and adding it to the "tweet" List we made
-                    adapter.notifyDataSetChanged();                                                      //*****
+                    //tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));              // Using the function from "tweet.java" to turn JSON array to a list of Tweet objects and adding it to the "tweet" List we made
+                    //adapter.notifyDataSetChanged();                                                      // need to notify adapter of changes
+                    adapter.clear();                                                                // *(Pull of Refresh)* When i swipe down, i need to clear the adapter and the add the tweets
+                    tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));         // *(Pull of Refresh)* after clearing adapter, add the tweets
+                    swipeContainer.setRefreshing(false);                                            // *(Pull of Refresh)* Refreshing is done so no need to show the loading indicator any more!
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception!!! (TimelineActivity)");
                 }

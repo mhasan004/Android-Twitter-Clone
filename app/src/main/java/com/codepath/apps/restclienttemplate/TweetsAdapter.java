@@ -58,4 +58,21 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             Glide.with(context).load(tweet.user.profileImageURL).into(ivProfilePic);                // 3.3) load in the profile pic with glide
         }
     }
+
+
+
+
+
+    // Copy and Paste from "Pull to Refresh": Clean all elements of the tweets list when i swipe down
+    public void clear() {
+        tweets.clear();
+        notifyDataSetChanged();
+    }
+    //  Copy and Paste from "Pull to Refresh": Add a list of items -- change to type used
+    public void addAll(List<Tweet> tweetlList) {
+        tweets.addAll(tweetlList);
+        notifyDataSetChanged();
+    }
+
+
 }
