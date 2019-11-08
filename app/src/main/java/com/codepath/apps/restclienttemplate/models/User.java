@@ -2,8 +2,10 @@ package com.codepath.apps.restclienttemplate.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-public class User {                                                 //this is a
+// This is a class to describe WHO the user is. The twitter API returns JSOn where "user" is a JSOn object with information such as name, screenName, prifilepic, etc
+// This class creates that User object basically. What is their name? their screenName? ProfilePic? We create this from the twitter API.
+// ***Basically: Turning the "User" JSON object to a java object so we can use it! To make a "User" java object we obviously need to make a class:
+public class User {
     public String name;
     public String screenName;
     public String profileImageURL;
