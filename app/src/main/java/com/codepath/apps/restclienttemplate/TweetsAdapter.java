@@ -69,8 +69,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         notifyDataSetChanged();
     }
     //  Copy and Paste from "Pull to Refresh": Add a list of items -- change to type used
-    public void addAll(List<Tweet> tweetlList) {
-        tweets.addAll(tweetlList);
+    public void addAll(List<Tweet> tweetList) {
+        tweets.addAll(tweetList);
         notifyDataSetChanged();
     }
 

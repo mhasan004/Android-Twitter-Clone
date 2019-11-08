@@ -63,9 +63,9 @@ public class TimelineActivity extends AppCompatActivity {
                 JSONArray jsonArray =  json.jsonArray;
                 try {
                     //tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));              // Using the function from "tweet.java" to turn JSON array to a list of Tweet objects and adding it to the "tweet" List we made
-                    //adapter.notifyDataSetChanged();                                                      // need to notify adapter of changes
                     adapter.clear();                                                                // *(Pull of Refresh)* When i swipe down, i need to clear the adapter and the add the tweets
-                    tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));         // *(Pull of Refresh)* after clearing adapter, add the tweets
+                    adapter.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));         // *(Pull of Refresh)* after clearing adapter, add the tweets
+                    adapter.notifyDataSetChanged();                                                      // need to notify adapter of changes
                     swipeContainer.setRefreshing(false);                                            // *(Pull of Refresh)* Refreshing is done so no need to show the loading indicator any more!
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception!!! (TimelineActivity)");
