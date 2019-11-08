@@ -15,22 +15,22 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
 
-public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {                 // B) NOW THAT I MADE VIEW HOLDER IN THIS CLASS, extend this class by extending the RecyclerView Adapter and parametrize it with the ViewHolder we just made
+public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {                 // 4.B) NOW THAT I MADE VIEW HOLDER IN THIS CLASS, extend this class by extending the RecyclerView Adapter and parametrize it with the ViewHolder we just made
     Context context;
     List<Tweet> tweets;
-    // 1) Pass in the context and list of tweets
+// 1) Pass in the context and list of tweets
     public TweetsAdapter(Context context, List<Tweet> tweets){
         this.context = context;
         this.tweets = tweets;
     }
-    // 2) For each row, inflate the layout
+// 2) For each row, inflate the layout
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_tweet,parent, false);
         return new ViewHolder(view);                                                                        //wrap this view into a ViewHolder we defines below
     }
-    // 3.1) Bind values based on the position of the elem
+// 3.1) Bind values based on the position of the elem
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);                                                         //get the data at the position
@@ -38,14 +38,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
     @Override
     public int getItemCount() {
-        return 0;
+        return tweets.size();                                                                       //*****VERY IMPORTANT! I had this to return 0 and nothing was being recycled!
     }
-    // 4) Define a ViewHolder
+// 4) Define a ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView ivProfilePic;
         TextView tvName;
         TextView tvBody;
-        public ViewHolder(@NonNull View itemView) {                                                 // A) MAKE THE VIEW HOLDER.  represents one row of the rv
+        public ViewHolder(@NonNull View itemView) {                                                 // 4.A) MAKE THE VIEW HOLDER.  represents one row of the rv
             super(itemView);
             ivProfilePic = itemView.findViewById(R.id.ivProfilePic);
             tvName = itemView.findViewById((R.id.tvName));

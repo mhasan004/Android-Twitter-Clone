@@ -50,7 +50,7 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();                                                                     // b) Initialize the list of tweets and adapter
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));                               // c) RecyclerView setup: layout manager and adapter
-        rvTweets.setAdapter(adapter);                                                                       // pass in the adapter we just made
+        rvTweets.setAdapter(adapter);                                                                   // pass in the adapter we just made
         populateHomeTimeLine();                                                                     //3)
     }
 
@@ -62,6 +62,7 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess (TimelineActivity): " + json.toString());
                 JSONArray jsonArray =  json.jsonArray;
                 try {
+                    Log.i(TAG, "Adding Tweet onSuccess (TimelineActivity");
                     //tweets.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));              // Using the function from "tweet.java" to turn JSON array to a list of Tweet objects and adding it to the "tweet" List we made
                     adapter.clear();                                                                // *(Pull of Refresh)* When i swipe down, i need to clear the adapter and the add the tweets
                     adapter.addAll(Tweet.fromJsonArray_returnListOfTweetObjects(jsonArray));         // *(Pull of Refresh)* after clearing adapter, add the tweets
