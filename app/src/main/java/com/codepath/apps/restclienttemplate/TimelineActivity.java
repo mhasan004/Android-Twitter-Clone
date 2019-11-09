@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -83,18 +84,19 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    // These Two functions are for the Menu ICON. What happens when i click on it?
+    // These Two functions are for the Menu ICON. Basically what happens when i click on the menu icon?
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {                                                 // P2: Action Bar Menu inflate "menu_main" xml file from the menu folder
-        getMenuInflater().inflate(R.menu.menu_main, menu);                                                          // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(Menu menu) {                                                 // P2: Action Bar Menu: inflate "menu_main" xml file from the menu folder
+        getMenuInflater().inflate(R.menu.menu_main, menu);                                                  // Inflate the menu; this adds items to the action bar if it is present.
         return true;
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {                                           // P2: Action Bar Menu On CLick Listeners: which item did i clicK/
-        if (item.getItemId() == R.id.compose){                                                      // if i click the bar itself
+    public boolean onOptionsItemSelected(MenuItem item) {                                           // P2: Action Bar Menu: Setting On CLick Listeners to the "compose" menu icon
+        if (item.getItemId() == R.id.compose){                                                              // What to do when i click on the menu icon?
             //compose icon has been selected
-            //navigate to the new activity
             Toast.makeText(this,"Compose!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ComposeActivity.class);                         // navigate to the new activity
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);                                                   // return true to compose the menu (process the click) or false to normal menu operation. See the onOptionItemSelected function def
