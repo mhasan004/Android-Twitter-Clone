@@ -7,6 +7,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -81,9 +83,20 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    // These Two functions are for the Menu ICON. What happens when i click on it?
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {                                                 //P2: This is for the Menu
+    public boolean onCreateOptionsMenu(Menu menu) {                                                 // P2: Action Bar Menu inflate "menu_main" xml file from the menu folder
         getMenuInflater().inflate(R.menu.menu_main, menu);                                                          // Inflate the menu; this adds items to the action bar if it is present.
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {                                           // P2: Action Bar Menu On CLick Listeners: which item did i clicK/
+        if (item.getItemId() == R.id.compose){                                                      // if i click the bar itself
+            //compose icon has been selected
+            //navigate to the new activity
+            Toast.makeText(this,"Compose!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);                                                   // return true to compose the menu (process the click) or false to normal menu operation. See the onOptionItemSelected function def
     }
 }
