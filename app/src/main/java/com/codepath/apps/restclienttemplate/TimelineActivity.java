@@ -6,6 +6,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -71,8 +72,6 @@ public class TimelineActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception!!! (TimelineActivity)");
                 }
-
-
             }
 
             @Override
@@ -80,5 +79,11 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onFailure  (from TimelineActivity.java): " + response , throwable);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {                                                 //P2: This is for the Menu
+        getMenuInflater().inflate(R.menu.menu_main, menu);                                                          // Inflate the menu; this adds items to the action bar if it is present.
+        return true;
     }
 }
