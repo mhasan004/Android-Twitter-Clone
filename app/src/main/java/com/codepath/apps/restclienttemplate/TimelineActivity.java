@@ -1,4 +1,5 @@
 package com.codepath.apps.restclienttemplate;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -6,6 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,8 @@ import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "hasan";
+    private final int REQUEST_CODE = 20;
+
     TwitterClient client;
     RecyclerView rvTweets;
     List<Tweet> tweets;                                                                             // Remember: the API return a JSOn object that is basically a tweet. We made a java "Tweet" class that will hold the fields we want. Since we will be getting a ton of tweet objects, we made a list of tweet objects
@@ -91,14 +96,27 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
     @Override
+
+    // When I click on the Menu Icon, Go to the ComposeActivity Window to write and POST the tweet
     public boolean onOptionsItemSelected(MenuItem item) {                                           // P2: Action Bar Menu: Setting On CLick Listeners to the "compose" menu icon
-        if (item.getItemId() == R.id.compose){                                                              // What to do when i click on the menu icon?
-            //compose icon has been selected
+        if (item.getItemId() == R.id.compose){                                                              // What to do when i click on the menu icon "compose"?
             Toast.makeText(this,"Compose!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ComposeActivity.class);                         // navigate to the new activity
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);                                                   // *****Starting the intent and saying that i want a response (go to onActivitResult)
             return true;
         }
         return super.onOptionsItemSelected(item);                                                   // return true to compose the menu (process the click) or false to normal menu operation. See the onOptionItemSelected function def
+    }
+
+    // *****Earlier i sent an intent to go to ComposeActivity. The ComposeActivity send me something back. ComposeActivity published the tweet to twitter already. Here im updating my RV to show that tweet
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {                               // ***** a) check if the request code the same one we passed and the result cod eis OK
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));                  // ***** b) Get data from the Intent (tweet) (had to put the tweet object into a parcelable so that i can pass it from ComposeActivity)
+            tweets.add(0, tweet);                                                            // ***** c) Update the RecyclerView with the tweet: Add my new tweet is the first position of the data source of tweets (List of tweets called "tweets")
+            adapter.notifyItemInserted(0);                                                 // ***** d) Update the adapter. tell it that we inserted an item in the data source ("tweets" List) at position 0
+            rvTweets.smoothScrollToPosition(0);                                                     // ***** e) When we post our tweet, the adapter shows my new tweet item in the 0th position. The it scrolls to it
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

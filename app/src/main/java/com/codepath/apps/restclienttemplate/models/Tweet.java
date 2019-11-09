@@ -3,16 +3,20 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 // This is a class to turn that Tweet the user made into a tweet object. What the Twitter returns is basically a tweet object (this class). What user tweeted this, tweet body, when was it tweeted?
 // The "User" property of this "Tweet" object is kind of special. Why? The Twitter API returns a "user" which contains the name, screenName, and profile pic of the person who tweeted
 // ***So need to make a "User" java object to represent that JSOn "User object"....see User.java
-
+@Parcel                                                                                                                     // (ignore) This is just so i can pass the data from ComposeActivity to TimelineActivity.
 public class Tweet {
     public User user;                                                                                                       //***Made this class. This is a User object. User object contains the the name, screenName, and the person's Profile pic from the API (turns JSON object to a java object-which is Users- basically)
     public String body;
     public String createdAt;
+
+    public Tweet() { }                                                                                                      // (ignore) empty constructor needed by the Parceler library
 
     // 1) Construction the Tweet from the API by turning extracting the fields we want from the JSON data and inserting to to this Tweet object we made!
     public static Tweet fromJsonObj_returnTweetObj(JSONObject jsonObject) throws JSONException {                            //***SUMMARY*** The twitter response gives us an JSOn response (Json Object) -> made a "Tweet" class to hold specific fields from that response (representing JSON object by a java object). Body and Create are simple key-val pairs and can get with jsonObject.getString(). *** BUT: the "user" filed is an object itself. So I made a "User" class to represent the User JSON object by a java object!

@@ -43,6 +43,17 @@ public class TwitterClient extends OAuthBaseClient
 	 *    ex: client.get(apiUrl, params, handler);
 	 *    ex: client.post(apiUrl, params, handler);
 	 */
+
+
+
+	//P2v3 Copied "getHomeTimeline" to handle publishing tweets POST API:https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update
+	public void publishTweet(String tweetContent, JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/update.json");									// CHanging the API URL
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		params.put("status", tweetContent);															// Only got one parameter, the string we want to tweet out, which is the "tweetContent"
+		client.post(apiUrl, params, "", handler);												// Making a post request now, had to add a "body" parameter, its empty for now
+	}
 }
 
 
