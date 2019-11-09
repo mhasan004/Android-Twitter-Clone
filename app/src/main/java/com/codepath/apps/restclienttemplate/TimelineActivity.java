@@ -54,7 +54,6 @@ public class TimelineActivity extends AppCompatActivity {
                 populateHomeTimeLine();
             }
         });
-
         rvTweets = findViewById(R.id.rvTweets);                                                         // a) Find the RecyclerView
         tweets = new ArrayList<>();                                                                     // b) Initialize the list of tweets and adapter
         adapter = new TweetsAdapter(this, tweets);
