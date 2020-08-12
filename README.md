@@ -17,7 +17,7 @@ The following **required** functionality is completed:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='Walkthrough.gif' title='Video Walkthrough' length='100px' width='100px' alt='Video Walkthrough' />
+<img src='Walkthrough.gif' title='Video Walkthrough' length='500px' width='500px' alt='Video Walkthrough' />
 
 
 ## License
