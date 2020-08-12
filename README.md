@@ -4,7 +4,7 @@
 
 ## User Stories
 
-The following **required** functionality is completed:
+App has the following functionalities:
 
   - User can **compose and post a new tweet**
   - User can click a “Compose” icon in the Action Bar on the top right
